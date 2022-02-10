@@ -31,6 +31,7 @@ class ParenEq {
 
 class Parser {
   constructor () {
+    this.log = [];
   }
 
   tokenize (expr) {
@@ -65,9 +66,9 @@ class Parser {
 
 
   parse (expr) {
+    this.log.push(expr);
     let tks = this.tokenize(expr);
     let typed = this.type_format(tks);
     return typed;
-    
   }
 }
