@@ -34,23 +34,21 @@ class Parser {
   }
 
   split_term (expr) {
+    expr = expr.replaceAll(" ", "");
     let eq = [];
     let flag = false;
     let elem = "";
-    
+ 
     for (let char of expr) {
       if (char == "+" || char == "-") {
-        if (flag == true) {
-          flag = false;
-        } else {
-          flag = true;
-          elem = "";
-        }
+        eq.push(elem);
+        elem = "";
       }
-      if (flag == true) {
-        elem += char;
-      }
+      elem += char;
     }
+
+    return eq;
+    
   }
 
   type_format (tks) {
