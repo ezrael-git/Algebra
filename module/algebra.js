@@ -33,10 +33,10 @@ class Parser {
   constructor () {
   }
 
-  split_term (expr) {
+  tokenize (expr) {
     expr = expr.replaceAll(" ", "");
+    expr += "+";
     let eq = [];
-    let flag = false;
     let elem = "";
  
     for (let char of expr) {
@@ -47,22 +47,27 @@ class Parser {
       elem += char;
     }
 
+    eq.splice(0, 1);
     return eq;
     
   }
 
   type_format (tks) {
     let eq = [];
-    let new_term = false;
-    let new_paren = false;
-    for (let tk of tokens) {
-      if (
+    for (tk of tks) {
+      let type = tk[0];
+      let value = tk.replace(type, "");
+      let obj = new Number(value,type);
+      eq.push(obj);
     }
+    return eq;
   }
 
 
   parse (expr) {
-    let tks = expr.split(' ');
+    let tks = this.tokenize(expr);
+    let typed = this.type_format(tks);
+    return typed;
     
   }
 }
