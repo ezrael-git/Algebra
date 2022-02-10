@@ -96,8 +96,30 @@ class Evaluater {
       let next = parsed[i+1];
       ongoing = 
       
-    } 
+    }
+
+    return final;
 
 
   }
+}
+
+module.exports = class Interface {
+  constructor () {
+    this.parser = new Parser();
+    this.evaluater = new Evaluater();
+  }
+
+  solve (exprs) {
+    exprs = exprs.trim().split("\n");
+    let result = 0;
+    for (let expr of exprs) {
+      let parsed = this.parser.parse(expr);
+      let evaled = this.evaluater.eval(parsed);
+      result += evaled;
+    }
+    return result;
+  }
+
+  
 }
