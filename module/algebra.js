@@ -8,7 +8,10 @@ class Number {
   }
 
   def () {
-    return this.value;
+    let r = "";
+    r += this.sign;
+    r += String(this.value);
+    return r
   }
 }
 
@@ -58,10 +61,17 @@ class Parser {
     for (tk of tks) {
       let type = tk[0];
       let value = tk.replace(type, "");
-      let obj = new Number(value,type);
+      let obj = new Number(parseInt(value),type);
       eq.push(obj);
     }
     return eq;
+  }
+
+  equalize (typed) {
+    if (typed.length % 2 != 0) {
+      typed.push(new Number(0));
+    }
+    return typed;
   }
 
 
@@ -69,6 +79,25 @@ class Parser {
     this.log.push(expr);
     let tks = this.tokenize(expr);
     let typed = this.type_format(tks);
-    return typed;
+    let equalized = this.equalize(typed);
+    return equalized;
+  }
+}
+
+class Evaluater {
+  constructor () {
+  }
+
+  eval (parsed) {
+    let final = 0;
+    let ongoing = 0;
+    for (let i = 0; i < parsed.length; i += 2) {
+      let first = parsed[i];
+      let next = parsed[i+1];
+      ongoing = 
+      
+    } 
+
+
   }
 }
