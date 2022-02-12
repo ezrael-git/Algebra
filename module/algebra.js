@@ -1,3 +1,4 @@
+// type
 class Number {
   constructor (value,type="+") {
     this.value = value;
@@ -31,6 +32,8 @@ class ParenEq {
     return r;
   }
 }
+
+// compiler
 
 class Parser {
   constructor () {
@@ -104,6 +107,7 @@ class Evaluater {
   }
 }
 
+// frontend
 module.exports = class Interface {
   constructor () {
     this.parser = new Parser();
