@@ -40,7 +40,26 @@ class Parser {
     this.log = [];
   }
 
+  resolve_variables (expr, map) {
+    /*
+    Resolve all given variables from an Object, turning them into parseable integers in the expression.
+    Arguments:
+      expr (str): the expression to resolve from
+      map (object): the dictionary object defining the variables
+    */
+    for (key of map) {
+      let val = map[key];
+      expr = expr.replaceAll(key,val);
+    }
+    return expr;
+  }
+
   tokenize (expr) {
+    /*
+    Tokenize an expression into an array of terms.
+    Arguments:
+      expr (str): the expression to tokenize
+    */
     expr = expr.replaceAll(" ", "");
     expr += "+";
     let eq = [];
@@ -60,6 +79,11 @@ class Parser {
   }
 
   type_format (tks) {
+    /*
+    Format an array of tokens into Objects.
+    Arguments:
+      tks (array): the array to format, preferably one that's been freshly tokenized by Parser.tokenize
+    */
     let eq = [];
     for (tk of tks) {
       let type = tk[0];
@@ -71,6 +95,11 @@ class Parser {
   }
 
   equalize (typed) {
+    /*
+    Equalize an array of type-formatted tokens, so that the array's length is divisible by two.
+    Arguments:
+      typed (array): an array of type-formatted tokens
+    */
     if (typed.length % 2 != 0) {
       typed.push(new Number(0));
     }
@@ -78,8 +107,17 @@ class Parser {
   }
 
 
-  parse (expr) {
+  parse (expr,variables=undefined) {
+    /*
+    Interface function for the whole Parser class.
+    Arguments:
+      expr (str): the expression to parse
+      variables (object): the variables to resolve
+    */
     this.log.push(expr);
+    if (variables != undefined) {
+      expr = this.resolve_variables(expr, variables);
+    }
     let tks = this.tokenize(expr);
     let typed = this.type_format(tks);
     let equalized = this.equalize(typed);
@@ -92,6 +130,12 @@ class Evaluater {
   }
 
   eval (parsed) {
+    /*
+    Interface method.
+    Evaluate a parsed expression.
+    Arguments:
+      parsed (array): array of parsed and type-formatted tokens
+    */
     let final = 0;
     let ongoing = 0;
     for (let i = 0; i < parsed.length; i += 2) {
@@ -115,6 +159,12 @@ module.exports = class Interface {
   }
 
   solve (exprs) {
+    /*
+    Solve an expression.
+    Interface method for the whole program.
+    Arguments:
+      exprs (array): an array of expressions to solve
+    */
     exprs = exprs.trim().split("\n");
     let result = 0;
     for (let expr of exprs) {
